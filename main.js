@@ -1,7 +1,8 @@
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
 const resultsLimit = "&entity=song&attribute=artistTerm&limit=10"
-const infoKeys = ["trackName", "collectionName", "artistName", "releaseDate", "previewUrl"];
+const infoKeys = ["trackName", "collectionName", "artistName", "releaseDate"];
+const previewKey = "previewUrl"
 const results = document.getElementById("search-results");
 
 form.addEventListener("submit", (e) => {
@@ -19,7 +20,7 @@ form.addEventListener("submit", (e) => {
         }
 
         let artist = input.value.toLowerCase().replace(' ', '+');
-        
+
         fetch(url+artist+resultsLimit)
             .then(res => res.json())
             .then(data => {
@@ -35,6 +36,15 @@ function fillSongCard(songObj, songCard) {
     let albumArt = document.createElement("img");
     albumArt.src = songObj.artworkUrl100;
     songCard.appendChild(albumArt);
+    for (let key of infoKeys) {
+        let infoDiv = document.createElement("div")
+        if (key === "releaseDate") {
+            infoDiv.innerText = "Released " + songObj.releaseDate.slice(0, 10);
+        } else{
+            infoDiv.innerText = songObj[key];
+        }
+        songCard.appendChild(infoDiv);
+    }
 
 }
 
