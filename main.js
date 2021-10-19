@@ -1,27 +1,21 @@
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
-const resultsLimit = "&entity=song&attribute=artistTerm&limit=10"
+const limit = "&entity=song&attribute=artistTerm&limit=10"
 const infoKeys = ["trackName", "collectionName", "artistName", "releaseDate"];
 const previewKey = "previewUrl"
 const results = document.getElementById("search-results");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault()
-
     let input = document.getElementById("music-query");
-
     if (input.value === "") {
         noSearch();
-    } 
-    
-    else {
+    } else {
         while (results.hasChildNodes()) {
             results.firstChild.remove()
         }
-
         let artist = input.value.toLowerCase().replace(' ', '+');
-
-        fetch(url+artist+resultsLimit)
+        fetch(url+artist+limit)
             .then(res => res.json())
             .then(data => {
                 for (let item of data.results) {
@@ -29,6 +23,7 @@ form.addEventListener("submit", (e) => {
                 }
             })
     }
+    form.reset()
 })
 
 
