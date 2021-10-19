@@ -1,7 +1,6 @@
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
 const limit = "&entity=song&attribute=artistTerm&limit=10"
-const infoKeys = ["trackName", "collectionName", "artistName", "releaseDate"];
 const previewKey = "previewUrl"
 const results = document.getElementById("search-results");
 
@@ -28,19 +27,11 @@ form.addEventListener("submit", (e) => {
 
 
 function fillSongCard(songObj, songCard) {
-    let albumArt = document.createElement("img");
-    albumArt.src = songObj.artworkUrl100;
-    songCard.appendChild(albumArt);
-    for (let key of infoKeys) {
-        let infoDiv = document.createElement("div")
-        if (key === "releaseDate") {
-            infoDiv.innerText = "Released " + songObj.releaseDate.slice(0, 10);
-        } else{
-            infoDiv.innerText = songObj[key];
-        }
-        songCard.appendChild(infoDiv);
-    }
-
+    addAlbumArt(songObj, songCard);
+    addSongTitle(songObj, songCard);
+    addAlbumTitle(songObj, songCard);
+    addArtist(songObj, songCard);
+    addReleaseDate(songObj, songCard);
 }
 
 function showSongCard(songObj) {
@@ -54,4 +45,35 @@ function noSearch() {
     let message = document.createElement("div")
     message.innerText = "Please enter an artist's name to search."
     results.appendChild(message)
+}
+
+// the following functions are used to extract key values from data within a JSON and add them to a songCard div
+function addAlbumArt(songObj, songCard) {
+    let albumArt = document.createElement("img");
+    albumArt.src = songObj.artworkUrl100;
+    songCard.appendChild(albumArt);
+}
+
+function addSongTitle(songObj, songCard) {
+    let songTitleDiv = document.createElement("div");
+    songTitleDiv.innerText = songObj.trackName
+    songCard.appendChild(songTitleDiv);
+}
+
+function addAlbumTitle(songObj, songCard) {
+    let albumTitleDiv = document.createElement("div");
+    albumTitleDiv.innerHTML = "<span>from </span>" + songObj.collectionName;
+    songCard.appendChild(albumTitleDiv);
+}
+
+function addArtist(songObj, songCard) {
+    let artistDiv = document.createElement("div");
+    artistDiv.innerHTML = "<span>by </span>" + songObj.artistName;
+    songCard.appendChild(artistDiv);
+}
+
+function addReleaseDate(songObj, songCard) {
+    let dateDiv = document.createElement("div");
+    dateDiv.innerHTML = "<span>released on </span>" + songObj.releaseDate.slice(0, 10);
+    songCard.appendChild(dateDiv);
 }
