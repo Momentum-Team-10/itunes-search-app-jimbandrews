@@ -25,6 +25,20 @@ form.addEventListener("submit", (e) => {
     form.reset()
 })
 
+// this works, but I need a better place to put the error message
+function noSearch() {
+    let message = document.createElement("div")
+    message.innerText = "Please enter an artist's name to search."
+    results.appendChild(message)
+}
+
+function showSongCard(songObj) {
+    let songCard = document.createElement("div");
+    songCard.id = songObj.previewUrl
+    songCard.classList.add("song-card")
+    fillSongCard(songObj, songCard)
+    results.appendChild(songCard)
+}
 
 function fillSongCard(songObj, songCard) {
     addAlbumArt(songObj, songCard);
@@ -32,19 +46,6 @@ function fillSongCard(songObj, songCard) {
     addAlbumTitle(songObj, songCard);
     addArtist(songObj, songCard);
     addReleaseDate(songObj, songCard);
-}
-
-function showSongCard(songObj) {
-    let songCard = document.createElement("div");
-    fillSongCard(songObj, songCard)
-    results.appendChild(songCard)
-}
-
-// this works, but I need a better place to put the error message
-function noSearch() {
-    let message = document.createElement("div")
-    message.innerText = "Please enter an artist's name to search."
-    results.appendChild(message)
 }
 
 // the following functions are used to extract key values from data within a JSON and add them to a songCard div
