@@ -1,8 +1,8 @@
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
 const limit = "&entity=song&attribute=artistTerm&limit=10"
-const previewKey = "previewUrl"
 const results = document.getElementById("search-results");
+const previewDiv = document.getElementById("music-preview");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -18,12 +18,37 @@ form.addEventListener("submit", (e) => {
             .then(res => res.json())
             .then(data => {
                 for (let item of data.results) {
-                    showSongCard(item)
+                    showSongCard(item);
                 }
             })
     }
     form.reset()
 })
+
+function linkSongPreview(songCard) {
+    songCard.addEventListener("click", () => {
+        if (previewDiv.hasChildNodes()) {
+            let preview = document.getElementById("preview");
+            preview.src = songCard.id;
+        } else {
+            previewDiv.innerHTML = `<audio control autoplay src=${songCard.id} id="preview">
+                Your browser does not support the <code>audio</code> element.
+                </audio>`;
+        }
+        
+        
+        
+        // audioPreview.src = songCard.id;
+        // 
+
+
+        // while (previewDiv.hasChildNodes()) {
+        //     previewDiv.firstChild.remove();
+        // }
+        // previewDiv.appendChild(preview);
+    })
+}
+
 
 // this works, but I need a better place to put the error message
 function noSearch() {
@@ -36,6 +61,7 @@ function showSongCard(songObj) {
     let songCard = document.createElement("div");
     songCard.id = songObj.previewUrl
     songCard.classList.add("song-card")
+    linkSongPreview(songCard);
     fillSongCard(songObj, songCard)
     results.appendChild(songCard)
 }
