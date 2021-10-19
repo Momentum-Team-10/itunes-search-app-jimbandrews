@@ -6,15 +6,28 @@ const results = document.getElementById("search-results");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault()
+
     let input = document.getElementById("music-query");
-    let artist = input.value.toLowerCase().replace(' ', '+');
-    fetch(url+artist+resultsLimit)
-        .then(res => res.json())
-        .then(data => {
-            for (let item of data.results) {
-                showSongCard(item)
-            }
-        })
+
+    if (input.value === "") {
+        noSearch();
+    } 
+    
+    else {
+        while (results.hasChildNodes()) {
+            results.firstChild.remove()
+        }
+
+        let artist = input.value.toLowerCase().replace(' ', '+');
+        
+        fetch(url+artist+resultsLimit)
+            .then(res => res.json())
+            .then(data => {
+                for (let item of data.results) {
+                    showSongCard(item)
+                }
+            })
+    }
 })
 
 
@@ -29,4 +42,11 @@ function showSongCard(songObj) {
     let songCard = document.createElement("div");
     fillSongCard(songObj, songCard)
     results.appendChild(songCard)
+}
+
+// this works, but I need a better place to put the error message
+function noSearch() {
+    let message = document.createElement("div")
+    message.innerText = "Please enter an artist's name to search."
+    results.appendChild(message)
 }
