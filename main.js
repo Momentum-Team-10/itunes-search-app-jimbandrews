@@ -27,25 +27,14 @@ form.addEventListener("submit", (e) => {
 
 function linkSongPreview(songCard) {
     songCard.addEventListener("click", () => {
-        if (previewDiv.hasChildNodes()) {
+        if (previewDiv.childElementCount !== 0) {
             let preview = document.getElementById("preview");
             preview.src = songCard.id;
         } else {
-            previewDiv.innerHTML = `<audio control autoplay src=${songCard.id} id="preview">
+            previewDiv.innerHTML = `<audio controls autoplay src=${songCard.id} id="preview">
                 Your browser does not support the <code>audio</code> element.
                 </audio>`;
         }
-        
-        
-        
-        // audioPreview.src = songCard.id;
-        // 
-
-
-        // while (previewDiv.hasChildNodes()) {
-        //     previewDiv.firstChild.remove();
-        // }
-        // previewDiv.appendChild(preview);
     })
 }
 
