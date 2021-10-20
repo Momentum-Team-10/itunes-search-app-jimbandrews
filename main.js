@@ -10,6 +10,9 @@ const error = document.getElementById("error-message");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     clearDivs();
+    if (document.getElementById("error-message")) {
+        document.getElementById("error-message").remove()
+    }
     let input = document.getElementById("music-query");
     if (input.value === "") {
         noSearch();
@@ -53,27 +56,33 @@ function linkSongPreview(songCard) {
 
 // this works, but I need a better place to put the error message
 function noSearch() {
-    let message = document.createElement("div");
+    let message = document.createElement("p");
+    message.classList.add("help");
+    message.id = "error-message";
     message.innerText = "Please enter an artist's name to search.";
-    error.appendChild(message);
+    form.appendChild(message);
 }
 
 function emptyGET() {
-    let message = document.createElement("div");
+    let message = document.createElement("p");
+    message.classList.add("help");
+    message.id = "error-message";
     message.innerText = "Your search did not return any results."
-    error.appendChild(message);
+    form.appendChild(message);
 }
 
 function usedHash() {
-    let message = document.createElement("div");
+    let message = document.createElement("p");
+    message.classList.add("help");
+    message.id = "error-message";
     message.innerText = "Please do not use the # character in your search."
-    error.appendChild(message);
+    form.appendChild(message);
 }
 
 function clearDivs() {
-    if (error.childElementCount !== 0) {
-        error.firstChild.remove();
-    }
+    // if (error.childElementCount !== 0) {
+    //     error.firstChild.remove();
+    // }
     if (previewDiv.childElementCount !== 0) {
         previewDiv.firstChild.remove();
     }
