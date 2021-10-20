@@ -92,21 +92,27 @@ function clearDivs() {
 function showSongCard(songObj) {
     let songCard = document.createElement("div");
     songCard.id = songObj.previewUrl;
-    songCard.classList.add("song-card");
+    songCard.classList.add("song-card", "is-flex", "is-flex-direction-column", "is-align-items-center");
+    let songContent = document.createElement("div");
+    songContent.classList.add("card-content");
     linkSongPreview(songCard);
     addAlbumArt(songObj, songCard);
-    addSongTitle(songObj, songCard);
-    addAlbumTitle(songObj, songCard);
-    addArtist(songObj, songCard);
-    addReleaseDate(songObj, songCard);
+    addSongTitle(songObj, songContent);
+    addAlbumTitle(songObj, songContent);
+    addArtist(songObj, songContent);
+    addReleaseDate(songObj, songContent);
+    songCard.appendChild(songContent);
     results.appendChild(songCard);
 }
 
 // the following functions are used to extract key values from data within a JSON and add them to a songCard div
 function addAlbumArt(songObj, songCard) {
+    let cardImage = document.createElement("div");
+    cardImage.classList.add("card-image");
     let albumArt = document.createElement("img");
     albumArt.src = songObj.artworkUrl100;
-    songCard.appendChild(albumArt);
+    cardImage.appendChild(albumArt);
+    songCard.appendChild(cardImage);
 }
 
 function addSongTitle(songObj, songCard) {
