@@ -1,28 +1,32 @@
+// initialize global variables
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
-const limit = "&entity=song&attribute=artistTerm&limit=10"
+const limit = "&entity=song&attribute=artistTerm&limit=10";
 const results = document.getElementById("search-results");
 const previewDiv = document.getElementById("music-preview");
+const error = document.getElementById("error-message");
 
+// event listener for when for is submitted --> fetch request to iTunes API
 form.addEventListener("submit", (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let input = document.getElementById("music-query");
     if (input.value === "") {
         noSearch();
     } else {
         while (results.hasChildNodes()) {
-            results.firstChild.remove()
+            results.firstChild.remove();
         }
         let artist = input.value.toLowerCase().replace(' ', '+');
         fetch(url+artist+limit)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 for (let item of data.results) {
                     showSongCard(item);
                 }
             })
     }
-    form.reset()
+    form.reset();
 })
 
 function linkSongPreview(songCard) {
@@ -41,26 +45,23 @@ function linkSongPreview(songCard) {
 
 // this works, but I need a better place to put the error message
 function noSearch() {
-    let message = document.createElement("div")
-    message.innerText = "Please enter an artist's name to search."
-    results.appendChild(message)
+    let message = document.createElement("div");
+    message.innerText = "Please enter an artist's name to search.";
+    error.appendChild(message);
 }
+
 
 function showSongCard(songObj) {
     let songCard = document.createElement("div");
-    songCard.id = songObj.previewUrl
-    songCard.classList.add("song-card")
+    songCard.id = songObj.previewUrl;
+    songCard.classList.add("song-card");
     linkSongPreview(songCard);
-    fillSongCard(songObj, songCard)
-    results.appendChild(songCard)
-}
-
-function fillSongCard(songObj, songCard) {
     addAlbumArt(songObj, songCard);
     addSongTitle(songObj, songCard);
     addAlbumTitle(songObj, songCard);
     addArtist(songObj, songCard);
     addReleaseDate(songObj, songCard);
+    results.appendChild(songCard);
 }
 
 // the following functions are used to extract key values from data within a JSON and add them to a songCard div
@@ -72,7 +73,7 @@ function addAlbumArt(songObj, songCard) {
 
 function addSongTitle(songObj, songCard) {
     let songTitleDiv = document.createElement("div");
-    songTitleDiv.innerText = songObj.trackName
+    songTitleDiv.innerText = songObj.trackName;
     songCard.appendChild(songTitleDiv);
 }
 
