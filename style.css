@@ -1,3 +1,15 @@
+/* * {
+    box-sizing: border-box;
+} */
+
+.song-card {
+    max-width: 230px;
+}
+
 .card-image {
     max-height: 100px;
+}
+
+.card-content {
+    padding: 12px;
 }

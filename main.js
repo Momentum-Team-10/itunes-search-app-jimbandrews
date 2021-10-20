@@ -1,7 +1,7 @@
 // initialize global variables
 const form = document.getElementById("music-form");
 const url = "https://itunes.apple.com/search?term=";
-const limit = "&entity=song&attribute=artistTerm&limit=10";
+const limit = "&entity=song&attribute=artistTerm&limit=25";
 const results = document.getElementById("search-results");
 const previewDiv = document.getElementById("music-preview");
 const error = document.getElementById("error-message");
@@ -42,6 +42,11 @@ form.addEventListener("submit", (e) => {
 
 function linkSongPreview(songCard) {
     songCard.addEventListener("click", () => {
+        playing = results.getElementsByClassName("has-background-success");
+        for (let element of playing) {
+            element.classList.remove("has-background-success");
+        }
+
         if (previewDiv.childElementCount !== 0) {
             let preview = document.getElementById("preview");
             preview.src = songCard.id;
@@ -50,6 +55,7 @@ function linkSongPreview(songCard) {
                 Your browser does not support the <code>audio</code> element.
                 </audio>`;
         }
+        songCard.classList.add("has-background-success");
     })
 }
 
