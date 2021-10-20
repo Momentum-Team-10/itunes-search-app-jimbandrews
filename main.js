@@ -9,10 +9,14 @@ const error = document.getElementById("error-message");
 // event listener for when for is submitted --> fetch request to iTunes API
 form.addEventListener("submit", (e) => {
     e.preventDefault();
+    clearDivs();
     let input = document.getElementById("music-query");
     if (input.value === "") {
         noSearch();
-    } else {
+    } else if (input.value.includes('#')) {
+        usedHash();
+    }
+    else {
         while (results.hasChildNodes()) {
             results.firstChild.remove();
         }
@@ -20,10 +24,14 @@ form.addEventListener("submit", (e) => {
         fetch(url+artist+limit)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                for (let item of data.results) {
-                    showSongCard(item);
+                if (data.results.length === 0) {
+                    emptyGET()
+                } else {
+                    for (let item of data.results) {
+                        showSongCard(item);
+                    }
                 }
+                
             })
     }
     form.reset();
@@ -48,6 +56,27 @@ function noSearch() {
     let message = document.createElement("div");
     message.innerText = "Please enter an artist's name to search.";
     error.appendChild(message);
+}
+
+function emptyGET() {
+    let message = document.createElement("div");
+    message.innerText = "Your search did not return any results."
+    error.appendChild(message);
+}
+
+function usedHash() {
+    let message = document.createElement("div");
+    message.innerText = "Please do not use the # character in your search."
+    error.appendChild(message);
+}
+
+function clearDivs() {
+    if (error.childElementCount !== 0) {
+        error.firstChild.remove();
+    }
+    if (previewDiv.childElementCount !== 0) {
+        previewDiv.firstChild.remove();
+    }
 }
 
 
