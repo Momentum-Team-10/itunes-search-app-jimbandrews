@@ -98,7 +98,7 @@ function clearDivs() {
 function showSongCard(songObj) {
     let songCard = document.createElement("div");
     songCard.id = songObj.previewUrl;
-    songCard.classList.add("song-card", "is-flex", "is-flex-direction-column", "is-align-items-center");
+    songCard.classList.add("song-card", "is-flex", "is-flex-direction-column", "is-align-items-center", "box");
     let songContent = document.createElement("div");
     songContent.classList.add("card-content");
     linkSongPreview(songCard);
