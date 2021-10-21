@@ -42,11 +42,7 @@ form.addEventListener("submit", (e) => {
 
 function linkSongPreview(songCard) {
     songCard.addEventListener("click", () => {
-        playing = results.getElementsByClassName("has-background-success");
-        for (let element of playing) {
-            element.classList.remove("has-background-success");
-        }
-
+        previewStopped();
         if (previewDiv.childElementCount !== 0) {
             let preview = document.getElementById("preview");
             preview.src = songCard.id;
@@ -55,7 +51,7 @@ function linkSongPreview(songCard) {
                 Your browser does not support the <code>audio</code> element.
                 </audio>`;
         }
-        songCard.classList.add("has-background-success");
+        previewPlaying(songCard);
     })
 }
 
@@ -141,6 +137,28 @@ function addArtist(songObj, songCard) {
 
 function addReleaseDate(songObj, songCard) {
     let dateDiv = document.createElement("div");
-    dateDiv.innerHTML = "<span class='is-size-7'>released on </span>" + songObj.releaseDate.slice(0, 10);
+    dateDiv.innerHTML = "<span class='is-size-7'>released </span>" + songObj.releaseDate.slice(0, 10);
     songCard.appendChild(dateDiv);
+}
+
+function previewPlaying(songCard) {
+    songCard.classList.add("has-background-success");
+    
+    let content = songCard.getElementsByClassName("card-content");
+    let infoDivs = content[0].children;
+    for (let child of infoDivs) {
+        child.classList.add("has-text-white")
+    }
+}
+
+function previewStopped() {
+    playing = results.getElementsByClassName("has-background-success");
+    for (let element of playing) {
+        element.classList.remove("has-background-success");
+        let content = element.getElementsByClassName("card-content");
+        let infoDivs = content[0].children;
+        for (let child of infoDivs) {
+            child.classList.remove("has-text-white")
+        }
+    }
 }
