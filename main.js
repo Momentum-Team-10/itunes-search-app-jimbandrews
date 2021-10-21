@@ -5,6 +5,8 @@ const limit = "&entity=song&attribute=artistTerm&limit=25";
 const results = document.getElementById("search-results");
 const previewDiv = document.getElementById("music-preview");
 const error = document.getElementById("error-message");
+const hero = document.getElementById("hero");
+const subtitle = document.getElementById("subtitle")
 
 // event listener for when for is submitted --> fetch request to iTunes API
 form.addEventListener("submit", (e) => {
@@ -20,6 +22,8 @@ form.addEventListener("submit", (e) => {
         usedHash();
     }
     else {
+        hero.classList.remove("is-fullheight")
+        subtitle.innerText = "Click a song to play its preview"
         while (results.hasChildNodes()) {
             results.firstChild.remove();
         }
