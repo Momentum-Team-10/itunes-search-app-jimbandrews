@@ -2,6 +2,12 @@
     box-sizing: border-box;
 } */
 
+form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 500px;
+}
+
 .song-card {
     width: 230px;
     margin-left: 8px;

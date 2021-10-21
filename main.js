@@ -22,8 +22,7 @@ form.addEventListener("submit", (e) => {
         usedHash();
     }
     else {
-        hero.classList.remove("is-fullheight")
-        subtitle.innerText = "Click a song to play its preview"
+        heroEdit(input)
         while (results.hasChildNodes()) {
             results.firstChild.remove();
         }
@@ -165,4 +164,12 @@ function previewStopped() {
             child.classList.remove("has-text-white")
         }
     }
+}
+
+function heroEdit(input) {
+    button = document.getElementById("button");
+    button.classList.remove("is-large");
+    input.classList.remove("is-large");
+    hero.classList.remove("is-fullheight");
+    subtitle.innerText = "Click a song to play its preview";
 }
