@@ -8,29 +8,29 @@ const hero = document.getElementById("hero");
 const herotitle = document.getElementById("title")
 const subtitle = document.getElementById("subtitle")
 
-// event listener for when for is submitted --> fetch request to iTunes API
+// event listener for when bulma form is submitted --> checks for errors, then fetch request to iTunes API
+// checks for no results, then loads results
 button.addEventListener("click", (e) => {
     e.preventDefault();
     clearErrors();
     let input = document.getElementById("music-query");
     if (input.value === "") {
-        noSearch();
+        subtitle.innerText = "Please enter an artist's name to search.";
     } else if (input.value.includes('#')) {
-        usedHash();
-    }
-    else {
-        heroEdit(input)
-        clearAudio()
-        while (results.hasChildNodes()) {
-            results.firstChild.remove();
-        }
+        subtitle.innerText = "Please do not use the # character in your search.";
+    }else {
         let artist = input.value.toLowerCase().replace(' ', '+');
         fetch(url+artist+limit)
             .then(res => res.json())
             .then(data => {
                 if (data.results.length === 0) {
-                    emptyGET()
+                    subtitle.innerText = "Your search did not return any results.";
                 } else {
+                    heroEdit(input)
+                    clearAudio()
+                    while (results.hasChildNodes()) {
+                        results.firstChild.remove();
+                    }
                     for (let item of data.results) {
                         showSongCard(item);
                     }
@@ -41,45 +41,10 @@ button.addEventListener("click", (e) => {
     input.value = "";
 })
 
-function linkSongPreview(songCard) {
-    songCard.addEventListener("click", () => {
-        previewStopped();
-        if (previewDiv.childElementCount !== 0) {
-            let preview = document.getElementById("preview");
-            preview.src = songCard.id;
-        } else {
-            previewDiv.innerHTML = `<audio controls autoplay src=${songCard.id} id="preview">
-                Your browser does not support the <code>audio</code> element.
-                </audio>`;
-        }
-        previewPlaying(songCard);
-    })
-}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// FUNCTIONS
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-function noSearch() {
-    let message = document.createElement("p");
-    message.classList.add("help");
-    message.id = "error-message";
-    message.innerText = "Please enter an artist's name to search.";
-    herotitle.insertBefore(message, subtitle)
-}
-
-function emptyGET() {
-    let message = document.createElement("p");
-    message.classList.add("help");
-    message.id = "error-message";
-    message.innerText = "Your search did not return any results.";
-    herotitle.insertBefore(message, subtitle)
-}
-
-function usedHash() {
-    let message = document.createElement("p");
-    message.classList.add("help");
-    message.id = "error-message";
-    message.innerText = "Please do not use the # character in your search.";
-    herotitle.insertBefore(message, subtitle)
-}
 
 // clears audio element after every successful submit
 function clearAudio() {
@@ -95,7 +60,15 @@ function clearErrors() {
     }
 }
 
+// changes bulma hero, making it smaller and only at the top
+function heroEdit(input) {
+    button.classList.remove("is-large");
+    input.classList.remove("is-large");
+    hero.classList.remove("is-fullheight");
+    subtitle.innerText = "Click a song to play its preview";
+}
 
+// creates, fills, and renders a songCard containing a song's artwork and info
 function showSongCard(songObj) {
     let songCard = document.createElement("div");
     songCard.id = songObj.previewUrl;
@@ -112,7 +85,22 @@ function showSongCard(songObj) {
     results.appendChild(songCard);
 }
 
-// the following functions are used to extract key values from data within a JSON and add them to a songCard div
+// adds audio element with src = songCard.id; checks if audio element is present or not
+function linkSongPreview(songCard) {
+    songCard.addEventListener("click", () => {
+        previewStopped();
+        if (previewDiv.childElementCount !== 0) {
+            let preview = document.getElementById("preview");
+            preview.src = songCard.id;
+        } else {
+            previewDiv.innerHTML = `<audio controls autoplay src=${songCard.id} id="preview">
+                Your browser does not support the <code>audio</code> element.
+                </audio>`;
+        }
+        previewPlaying(songCard);
+    })
+}
+// the following 5 functions are used to extract key values from data within a JSON and add them to a songCard div
 function addAlbumArt(songObj, songCard) {
     let cardImage = document.createElement("div");
     cardImage.classList.add("card-image");
@@ -146,6 +134,7 @@ function addReleaseDate(songObj, songCard) {
     songCard.appendChild(dateDiv);
 }
 
+// changes the background and font colors of the song whose preview audio is playing to green and white, respectively
 function previewPlaying(songCard) {
     songCard.classList.add("has-background-success");
     
@@ -156,6 +145,7 @@ function previewPlaying(songCard) {
     }
 }
 
+// changes the background and font colors of the song whose preview audio was playing back to normal
 function previewStopped() {
     playing = results.getElementsByClassName("has-background-success");
     for (let element of playing) {
@@ -166,11 +156,4 @@ function previewStopped() {
             child.classList.remove("has-text-white")
         }
     }
-}
-
-function heroEdit(input) {
-    button.classList.remove("is-large");
-    input.classList.remove("is-large");
-    hero.classList.remove("is-fullheight");
-    subtitle.innerText = "Click a song to play its preview";
 }
