@@ -18,9 +18,9 @@ button.addEventListener("click", (e) => {
         subtitle.innerText = "Please enter an artist's name to search.";
     } else if (input.value.includes('#')) {
         subtitle.innerText = "Please do not use the # character in your search.";
-    }else {
+    } else {
         let artist = input.value.toLowerCase().replace(' ', '+');
-        fetch(url+artist+limit)
+        fetch(url + artist + limit)
             .then(res => res.json())
             .then(data => {
                 if (data.results.length === 0) {
@@ -35,7 +35,6 @@ button.addEventListener("click", (e) => {
                         showSongCard(item);
                     }
                 }
-                
             })
     }
     input.value = "";
@@ -137,7 +136,7 @@ function addReleaseDate(songObj, songCard) {
 // changes the background and font colors of the song whose preview audio is playing to green and white, respectively
 function previewPlaying(songCard) {
     songCard.classList.add("has-background-success");
-    
+
     let content = songCard.getElementsByClassName("card-content");
     let infoDivs = content[0].children;
     for (let child of infoDivs) {
