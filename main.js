@@ -1,20 +1,17 @@
 // initialize global variables
-const form = document.getElementById("music-form");
+const submit = document.getElementById("button");
 const url = "https://itunes.apple.com/search?term=";
 const limit = "&entity=song&attribute=artistTerm&limit=25";
 const results = document.getElementById("search-results");
 const previewDiv = document.getElementById("music-preview");
-const error = document.getElementById("error-message");
 const hero = document.getElementById("hero");
+const herotitle = document.getElementById("title")
 const subtitle = document.getElementById("subtitle")
 
 // event listener for when for is submitted --> fetch request to iTunes API
-form.addEventListener("submit", (e) => {
+button.addEventListener("click", (e) => {
     e.preventDefault();
-    clearDivs();
-    if (document.getElementById("error-message")) {
-        document.getElementById("error-message").remove()
-    }
+    clearErrors();
     let input = document.getElementById("music-query");
     if (input.value === "") {
         noSearch();
@@ -23,6 +20,7 @@ form.addEventListener("submit", (e) => {
     }
     else {
         heroEdit(input)
+        clearAudio()
         while (results.hasChildNodes()) {
             results.firstChild.remove();
         }
@@ -40,7 +38,7 @@ form.addEventListener("submit", (e) => {
                 
             })
     }
-    form.reset();
+    input.value = "";
 })
 
 function linkSongPreview(songCard) {
@@ -59,37 +57,41 @@ function linkSongPreview(songCard) {
 }
 
 
-// this works, but I need a better place to put the error message
 function noSearch() {
     let message = document.createElement("p");
     message.classList.add("help");
     message.id = "error-message";
     message.innerText = "Please enter an artist's name to search.";
-    form.appendChild(message);
+    herotitle.insertBefore(message, subtitle)
 }
 
 function emptyGET() {
     let message = document.createElement("p");
     message.classList.add("help");
     message.id = "error-message";
-    message.innerText = "Your search did not return any results."
-    form.appendChild(message);
+    message.innerText = "Your search did not return any results.";
+    herotitle.insertBefore(message, subtitle)
 }
 
 function usedHash() {
     let message = document.createElement("p");
     message.classList.add("help");
     message.id = "error-message";
-    message.innerText = "Please do not use the # character in your search."
-    form.appendChild(message);
+    message.innerText = "Please do not use the # character in your search.";
+    herotitle.insertBefore(message, subtitle)
 }
 
-function clearDivs() {
-    // if (error.childElementCount !== 0) {
-    //     error.firstChild.remove();
-    // }
+// clears audio element after every successful submit
+function clearAudio() {
     if (previewDiv.childElementCount !== 0) {
         previewDiv.firstChild.remove();
+    }
+}
+
+// clears error message after every submit
+function clearErrors() {
+    if (document.getElementById("error-message")) {
+        document.getElementById("error-message").remove()
     }
 }
 
@@ -167,7 +169,6 @@ function previewStopped() {
 }
 
 function heroEdit(input) {
-    button = document.getElementById("button");
     button.classList.remove("is-large");
     input.classList.remove("is-large");
     hero.classList.remove("is-fullheight");

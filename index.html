@@ -13,14 +13,31 @@
 <body>
     <section id="hero" class="hero is-link is-fullheight">
         <div class="hero-body">
-            <div class="title">
+            
+            
+            
+            
+            
+            <div id="title" class="title">
                 <p class="is-size-1 has-text-weight-bold">
                     Super Duper Modern Music Site
                 </p>
-                <form id="music-form" class="field has-addons">
+
+                <div id="music-form" class="field has-addons">
+                    <div class="control">
+                        <input type="text" id="music-query" class="input is-large" placeholder="Search Artist">
+                    </div>
+                    <div class="control">
+                        <button type="submit" id="button" class="button is-success is-large">Search</button>
+                    </div>
+                </div>
+
+                <!-- <p id="error-container" class="is-size-7"></p> -->
+
+                <!-- <form id="music-form" class="field has-addons">
                         <input type="text" id="music-query" class="input is-large" placeholder="Search Artist">
                         <button type="submit" id="button" class="button is-success is-large">Search</button>
-                </form>
+                </form> -->
                 <p id="subtitle" class="subtitle">Search for an artist</p>
                 <div id="music-preview"></div>    
             </div>
