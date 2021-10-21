@@ -129,18 +129,18 @@ function addSongTitle(songObj, songCard) {
 
 function addAlbumTitle(songObj, songCard) {
     let albumTitleDiv = document.createElement("div");
-    albumTitleDiv.innerHTML = "<span>from </span>" + songObj.collectionName;
+    albumTitleDiv.innerHTML = "<span class='is-size-7'>from </span>" + songObj.collectionName;
     songCard.appendChild(albumTitleDiv);
 }
 
 function addArtist(songObj, songCard) {
     let artistDiv = document.createElement("div");
-    artistDiv.innerHTML = "<span>by </span>" + songObj.artistName;
+    artistDiv.innerHTML = "<span class='is-size-7'>by </span>" + songObj.artistName;
     songCard.appendChild(artistDiv);
 }
 
 function addReleaseDate(songObj, songCard) {
     let dateDiv = document.createElement("div");
-    dateDiv.innerHTML = "<span>released on </span>" + songObj.releaseDate.slice(0, 10);
+    dateDiv.innerHTML = "<span class='is-size-7'>released on </span>" + songObj.releaseDate.slice(0, 10);
     songCard.appendChild(dateDiv);
 }

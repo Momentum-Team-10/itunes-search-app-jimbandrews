@@ -14,3 +14,7 @@
 .card-content {
     padding: 12px;
 }
+
+.card-content > div {
+    text-align: center;
+}
