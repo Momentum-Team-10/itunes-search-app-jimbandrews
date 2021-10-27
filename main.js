@@ -111,19 +111,35 @@ function addAlbumArt(songObj, songCard) {
 
 function addSongTitle(songObj, songCard) {
     let songTitleDiv = document.createElement("div");
-    songTitleDiv.innerText = songObj.trackName;
+    if (songObj.trackName.length > 19) {
+        songTitleDiv.innerText = songObj.trackName.slice(0, 17) + "...";
+        songTitleDiv.setAttribute("title", songObj.trackName);
+    } else {
+        songTitleDiv.innerText = songObj.trackName;
+    }
     songCard.appendChild(songTitleDiv);
 }
 
 function addAlbumTitle(songObj, songCard) {
     let albumTitleDiv = document.createElement("div");
-    albumTitleDiv.innerHTML = "<span class='is-size-7'>from </span>" + songObj.collectionName;
+    if (songObj.collectionName.length > 16) {
+        albumTitleDiv.innerHTML = "<span class='is-size-7'>from </span>" + songObj.collectionName.slice(0,14) + "...";
+        albumTitleDiv.setAttribute("title", songObj.collectionName);
+    }
+    else {
+        albumTitleDiv.innerHTML = "<span class='is-size-7'>from </span>" + songObj.collectionName;
+    }
     songCard.appendChild(albumTitleDiv);
 }
 
 function addArtist(songObj, songCard) {
     let artistDiv = document.createElement("div");
-    artistDiv.innerHTML = "<span class='is-size-7'>by </span>" + songObj.artistName;
+    if (songObj.artistName.length > 17) {
+        artistDiv.innerHTML = "<span class='is-size-7'>by </span>" + songObj.artistName.slice(0,15) + "...";
+        artistDiv.setAttribute("title", songObj.artistName)
+    } else {
+        artistDiv.innerHTML = "<span class='is-size-7'>by </span>" + songObj.artistName;
+    }
     songCard.appendChild(artistDiv);
 }
 
